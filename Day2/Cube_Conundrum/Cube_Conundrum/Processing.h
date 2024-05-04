@@ -7,8 +7,8 @@
 //  /_______  /|__| |___|  (____  /___|  / /\ /_______  /
 //          \/           \/     \/     \/  \/         \/ 
 // 
-// Day 1 Trebuchet
-// 04-26-2024
+// Day 2 Cube Conundrum
+// 04-27-2024
 //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #pragma once
@@ -17,7 +17,12 @@
 #include <fstream>
 #include <string>
 
-namespace Trebuchet {
+// uncomment the #define for the part of the problem you
+// would like to run
+#define PART_1
+//#define PART_2
+
+namespace Cube_Conundrum {
 
 	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	// @brief   Checks command line arguments and opens file
@@ -27,22 +32,18 @@ namespace Trebuchet {
 	// @return  bool        result of init
 	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	extern bool initialize(
-		int argc, 
-		char* argv, 
+		int argc,
+		char* argv,
 		std::ifstream& file_pointer);
 
 	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	// @brief   Checks command line arguments and opens file
+	// @brief   Returns the sum of all valid games IDs
 	// @param   ifstream    file pointer 
+	// @param   uint32      sum of all valid games IDs
 	// @return  bool        result of init
 	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	extern bool main_processing_loop(std::ifstream& file_pointer);
+	extern bool sum_of_valid_games(
+		std::ifstream& file_pointer,
+		uint32_t& sum);
 
-	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	// @brief   Closes file pointer
-	// @param   ifstream    file pointer 
-	// @return  bool        result of uninitialize
-	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	extern bool uninitialize(std::ifstream& file_pointer);
-
-}	// END namespace Trebuchet
+}	// END namespace Cube_Conundrum
