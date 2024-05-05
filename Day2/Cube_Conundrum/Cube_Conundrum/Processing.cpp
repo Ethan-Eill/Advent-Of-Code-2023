@@ -45,6 +45,19 @@ namespace Cube_Conundrum {
 
 	}	// END get_game_id
 
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	// PART1 Determines if string is valid game
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	static bool is_game_valid(std::string curr_line)
+	{
+		bool result = true;
+		uint16_t string_index = 0;
+		uint16_t red_count = 0, blue_count = 0, green_count = 0;
+
+
+		return result;
+	}	// END is_game_valid()
+
 //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // PUBLIC FUNCTIONS
 //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -69,7 +82,7 @@ namespace Cube_Conundrum {
         // Open the input file
         file_pointer.open(argv, std::ios::in);
         if (!file_pointer) {
-            printf("FATAL ERROR: Error opening file!");
+            printf("FATAL ERROR: Error opening file!\n");
             result &= false;
             return result;
         }
@@ -87,7 +100,18 @@ namespace Cube_Conundrum {
 		uint32_t& sum) 
 	{
 		bool result = true;
+		std::string curr_line;
+		uint16_t game_id;
 
+		while (std::getline(file_pointer, curr_line))
+		{
+			game_id = get_game_id(curr_line);
+
+			if (is_game_valid(curr_line)) 
+			{
+				sum += game_id;
+			}
+		}	// END processing loop
 
 
 		return result;

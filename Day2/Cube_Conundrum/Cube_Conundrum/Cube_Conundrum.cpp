@@ -20,16 +20,22 @@ int main(int argc, char* argv[])
 
     // Assure expected command line args are present and
     // open input file
-    if (!Cube_Conundrum::initialize(argc, argv[1], file_pointer)) {
+    if (!Cube_Conundrum::initialize(argc, argv[1], file_pointer)) 
+    {
         printf("FATAL ERROR: Error initializing!\n");
         exit(EXIT_FAILURE);
     }
 
 #ifdef PART_1
     // Solve Part 1
-    if (!Cube_Conundrum::sum_of_valid_games(file_pointer, sum)) {
+    if (!Cube_Conundrum::sum_of_valid_games(file_pointer, sum)) 
+    {
         printf("FATAL ERROR: Error solving part 1!\n");
         exit(EXIT_FAILURE);
+    }
+    else
+    {
+        printf("PART 1: Sum of valid games is %d\n", sum);
     }
 #endif // PART1
 
