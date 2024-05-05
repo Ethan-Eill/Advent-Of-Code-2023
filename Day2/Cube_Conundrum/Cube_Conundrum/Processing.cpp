@@ -17,6 +17,10 @@ namespace Cube_Conundrum {
 //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // PRIVATE VARIABLES
 //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	static constexpr uint16_t RED_INDEX{ 0 };
+	static constexpr uint16_t GREEN_INDEX{ 1 };
+	static constexpr uint16_t BLUE_INDEX{ 2 };
+
 	static constexpr uint16_t num_cubes[]{ 12, 13, 14 };
 
 	static const std::string colors[]{ "red", "green", "blue"};
@@ -30,20 +34,136 @@ namespace Cube_Conundrum {
 	static uint16_t get_game_id(std::string curr_line)
 	{
 		uint16_t game_id = 0;
-		uint16_t string_index = 0;
+		uint16_t multiplier = 1;
+		uint16_t string_index = curr_line.find_first_of(':');
+		string_index--;
 
-		// find first digit in string
-		while (!isdigit(curr_line[string_index])) {
-			string_index++;
+		while (' ' != curr_line[string_index])
+		{
+			game_id += multiplier * ((uint16_t)(curr_line[string_index] - 48));
+			multiplier *= 10;
+			string_index--;
 		}
 
-		
-		while (isdigit(curr_line[string_index])) {
-			// subtracting 48 gives the number value
-			game_id += (uint16_t)(curr_line[string_index] - 48);
-		}
-
+		return game_id;
 	}	// END get_game_id
+
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	// PART1 Checks if all blue cubes in given line are valid
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	static bool is_blue_valid(std::string curr_line)
+	{
+		uint16_t sum = 0;
+		bool result = true;
+
+		for (int i = 0; i <= curr_line.size(); i++) 
+		{
+
+			if (curr_line[i] == ',' || curr_line[i] == ';' || i == curr_line.size())
+			{
+				sum = 0;
+				if (0 == curr_line.compare(
+					(i-colors[BLUE_INDEX].size()),
+					(colors[BLUE_INDEX].size()),
+					colors[BLUE_INDEX]))
+				{
+					uint16_t num_index = (i - colors[BLUE_INDEX].size()) - 2;
+					uint16_t multiplier = 1;
+					while (' ' != curr_line[num_index])
+					{
+						sum += multiplier * ((uint16_t)(curr_line[num_index] - 48));
+						multiplier *= 10;
+						num_index--;
+					}
+					if (num_cubes[BLUE_INDEX] < sum)
+					{
+						result = false;
+					}
+				}
+
+			}
+		}
+
+		return result;
+	}	// END is_blue_valid()
+
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	// PART1 Checks if all red cubes in given line are valid
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	static bool is_red_valid(std::string curr_line)
+	{
+		uint16_t sum = 0;
+		bool result = true;
+
+		for (int i = 0; i <= curr_line.size(); i++)
+		{
+
+			if (curr_line[i] == ',' || curr_line[i] == ';' || i == curr_line.size())
+			{
+				sum = 0;
+				if (0 == curr_line.compare(
+					(i - colors[RED_INDEX].size()),
+					(colors[RED_INDEX].size()),
+					colors[RED_INDEX]))
+				{
+					uint16_t num_index = (i - colors[RED_INDEX].size()) - 2;
+					uint16_t multiplier = 1;
+					while (' ' != curr_line[num_index])
+					{
+						sum += multiplier * ((uint16_t)(curr_line[num_index] - 48));
+						multiplier *= 10;
+						num_index--;
+					}
+					if (num_cubes[RED_INDEX] < sum)
+					{
+						result = false;
+					}
+				}
+
+			}
+		}
+
+		return result;
+	}	// END is_red_valid()
+
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	// PART1 Checks if all green cubes in given line are valid
+	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	static bool is_green_valid(std::string curr_line)
+	{
+		uint16_t sum = 0;
+		bool result = true;
+
+		for (int i = 0; i <= curr_line.size(); i++)
+		{
+
+			if (curr_line[i] == ',' || curr_line[i] == ';' || i == curr_line.size())
+			{
+				sum = 0;
+				if (0 == curr_line.compare(
+					(i - colors[GREEN_INDEX].size()),
+					(colors[GREEN_INDEX].size()),
+					colors[GREEN_INDEX]))
+				{
+					uint16_t num_index = (i - colors[GREEN_INDEX].size()) - 2;
+					uint16_t multiplier = 1;
+					while (' ' != curr_line[num_index])
+					{
+						sum += multiplier * ((uint16_t)(curr_line[num_index] - 48));
+						multiplier *= 10;
+						num_index--;
+					}
+					if (num_cubes[GREEN_INDEX] < sum)
+					{
+						result = false;
+					}
+				}
+
+			}
+		}
+
+		return result;
+	}	// END is_green_valid()
 
 	//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	// PART1 Determines if string is valid game
@@ -52,7 +172,13 @@ namespace Cube_Conundrum {
 	{
 		bool result = true;
 		uint16_t string_index = 0;
-		uint16_t red_count = 0, blue_count = 0, green_count = 0;
+		//uint16_t blue_count = get_blue_sum(curr_line);
+		//uint16_t red_count = get_red_sum(curr_line);
+		//uint16_t green_count = get_green_sum(curr_line);
+
+		result &= is_blue_valid(curr_line);
+		result &= is_red_valid(curr_line);
+		result &= is_green_valid(curr_line);
 
 
 		return result;
